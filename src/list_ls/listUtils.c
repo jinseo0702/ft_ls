@@ -12,11 +12,8 @@ void free_ls_list(t_list_ls **list) {
 
 t_list_ls *init_ls_list() {
     t_list_ls *return_value = malloc(sizeof(t_list_ls));
-    if (return_value == NULL) return NULL;
+    if (return_value == NULL) return NULL; //굳이 사용해야 할까?
     ft_memset(return_value, 0, sizeof(t_list_ls));
-    return_value->name = NULL;
-    return_value->next = NULL;
-    return_value->child = NULL;
     return return_value;
 }
 
@@ -41,6 +38,7 @@ void free_all_ls_list(t_list_ls **head){
     while (temp) {
         if (temp->child != NULL) free_all_ls_list(&temp->child);
         if (temp->name != NULL) ft_freenull(&temp->name);
+        if (temp->path != NULL) ft_freenull(&temp->path);
         temp = temp->next;
         free_ls_list(head);
         *head = temp;

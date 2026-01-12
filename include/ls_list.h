@@ -3,9 +3,17 @@
 
 #include <sys/types.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include "../libft/libft.h"
+#include "./dirStream.h"
+
+
+typedef struct dirent dirent;
 
 typedef struct s_list_ls {
+    DIR *openDir;
+    char *path;
+    dirent readDirPtr;
     char *name;
     mode_t st_mode;
     nlink_t st_nlink;
@@ -13,6 +21,7 @@ typedef struct s_list_ls {
     gid_t st_gid;
     blkcnt_t st_blocks;
     struct timespec st_mtim;
+    long ErrorNum;
 
     struct s_list_ls *next;
     struct s_list_ls *child;

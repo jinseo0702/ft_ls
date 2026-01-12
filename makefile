@@ -3,10 +3,17 @@ CFLAG = -g -Wall -Wextra -Werror -Iinclude -Iprintf -Ilibft
 RM = rm -rf
 
 SRC = src/list_ls/listUtils.c \
-	src/list_ls/testListUtils.c
+	src/dirStream/dirStream.c\
+	src/utils/utils.c\
+	src/main.c
+
 OBJS = $(SRC:.c=.o)
 NAME = ft_ls
-HEADER = include/ls_list.h
+HEADER = include/ls_list.h \
+include/dirStream.h \
+include/ft_ls.h \
+include/utils.h
+
 LIBFT_A = libft/libft.a
 PRINTF_A = printf/libftprintf.a
 
