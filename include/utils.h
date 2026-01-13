@@ -6,13 +6,33 @@
 #include "../libft/libft.h"
 #include "../printf/libftprintf.h"
 
+// 0000 0001 = l
+// 0000 0010 = R
+// 0000 0100 = a
+// 0000 1000 = r
+// 0001 0000 = t
+
+typedef char t_option;
+
+#define OPT_l (1 << 0)
+#define OPT_R (2 << 0)
+#define OPT_a (3 << 0)
+#define OPT_r (4 << 0)
+#define OPT_t (5 << 0)
+
+#define HASOPT(opt, flag) (((opt) & (flag)) != 0)
+#define SETOPT(opt, flag) ((opt) |= (flag))
+#define CLROPT(opt, flag) ((opt) &= ~(flag))
+
 typedef struct s_list_ls t_list_ls;
 
 #define ERROR_LIST \
     X(ERR_MALLOC, "Mallioc Error") \
     X(ERR_OPENDIR, "Opendir Error") \
     X(ERR_READDIR, "Readdir Error") \
-    X(ERR_CLOSEDIR, "Closedir Error")
+    X(ERR_CLOSEDIR, "Closedir Error") \
+    X(ERR_INVAILD_OPTION, "invalid option -- ") \
+    X(ERR_CANNOT_ACCESS, "cannot access ") \
 
 
 
@@ -31,9 +51,29 @@ static inline const char *get_error_msg(t_errr err) {
     }
 }
 
+typedef struct s_parsing {
+    char *str;
+    struct s_parsing *next;
+    t_list_ls *head;
+} t_parsing ;
+
 void print_error(t_errr error);
+void print_error_ls(t_errr error, const char *str);
 void exit_process(unsigned long ErrorNum);
 void print_ls(int flag, t_list_ls **head);
 void print_s_list_ls(t_list_ls *temp);
+void print_s_list_parsing(t_parsing *temp);
+
+//parsing.c
+void free_parsing_list(t_parsing **list);
+t_parsing *init_parsing_list();
+unsigned int cnt_parsing_list(t_parsing **head);
+void free_all_parsing_list(t_parsing **head);
+void ls_parsing_pushBack(t_parsing **head, t_parsing *next);
+void check_option(const char *str, t_option *opt);
+int parsing_argument(t_parsing **head, char *argv[], t_option *op);
+
+//doOption.c
+void do_Option(t_list_ls **head, t_option op);
 
 #endif

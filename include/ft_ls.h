@@ -7,7 +7,7 @@
 #include "../libft/libft.h"
 #include "../printf/libftprintf.h"
 
-void ft_ls(t_list_ls **head);
+void ft_ls(t_list_ls **head, t_option op, int path_cnt);
 void recReadDir(t_list_ls **head, DIR *openDir, char *path);
 
 

@@ -1,8 +1,4 @@
 #include "../../include/ls_list.h"
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 void free_ls_list(t_list_ls **list) {
     if (list && *list) {
@@ -57,6 +53,22 @@ void ls_list_pushBack(t_list_ls **head, t_list_ls *next) {
     }
 }
 
+void ls_list_remove(t_list_ls **head, const unsigned char c) {
+    t_list_ls **pp= head;
+    t_list_ls *cur;
+    while (*pp) {
+        cur = *pp;
+        if (cur->name && (unsigned char)cur->name[0] == c) {
+            *pp = cur->next;
+            if (cur->name != NULL) ft_freenull(&cur->name);
+            if (cur->path != NULL) ft_freenull(&cur->path);
+            free_ls_list(&cur);
+            continue;
+        }
+        pp = &((*pp)->next);
+    }
+}
+
 void sort_list(t_list_ls **head, int (*cmp)()) {
     int swapped;
     t_list_ls *cur;
@@ -85,17 +97,32 @@ void sort_list(t_list_ls **head, int (*cmp)()) {
         }
     }while (swapped);
 }
-// do {
-//     swapped = 0;
-//     prev = NULL;
-//     cur = head;
-//     while (cur && cur->next) {
-//         next = cur->next;
-//         if (cmp(cur->data, next->data) > 0) {
-//           swap(cur, swap)
-//         } else {
-//             prev = cur;
-//             cur = cur->next;
-//         }
-//     }
-// } while (swapped);   
+
+void sort_reverse_list(t_list_ls **head, int (*cmp)()) {
+    int swapped;
+    t_list_ls *cur;
+    t_list_ls *next;
+    t_list_ls **pp;
+    size_t len_cur;
+    size_t len_next;
+    size_t len;
+
+    do {
+        swapped = 0;
+        pp = head;
+        while (*pp && (*pp)->next) {
+            cur = *pp;
+            next = cur->next;
+            len_cur = ft_strlen(cur->name);
+            len_next = ft_strlen(next->name);
+            len = len_cur > len_next ? len_cur : len_next;
+            if (cmp(cur->name, next->name, len) < 0) {
+                cur->next = next->next;
+                next->next = cur;
+                *pp = next;
+                swapped = 1;
+            }
+            pp = &((*pp)->next);
+        }
+    }while (swapped);
+}

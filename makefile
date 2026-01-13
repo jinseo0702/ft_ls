@@ -5,6 +5,8 @@ RM = rm -rf
 SRC = src/list_ls/listUtils.c \
 	src/dirStream/dirStream.c\
 	src/utils/utils.c\
+	src/utils/parsing.c\
+	src/utils/doOption.c\
 	src/main.c
 
 OBJS = $(SRC:.c=.o)

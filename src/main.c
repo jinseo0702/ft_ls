@@ -1,5 +1,7 @@
 #include "../include/ft_ls.h"
 
+//0000 0000
+
 void recReadDir(t_list_ls **head, DIR *openDir, char *path) {
     t_list_ls *temp = *head;
     readDirectoryStream(temp, openDir);
@@ -21,7 +23,7 @@ void recReadDir(t_list_ls **head, DIR *openDir, char *path) {
     }
 }
 
-void ft_ls(t_list_ls **head) {
+void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     t_list_ls *temp = *head;
     char *path = NULL;
 
@@ -36,18 +38,49 @@ void ft_ls(t_list_ls **head) {
     }
     recReadDir(head, temp->openDir, path);
     closeDirectoryStream(temp->openDir);
+    do_Option(head, op);
+    // print_s_list_ls(*head);
     ft_freenull(&path);
-    sort_list(head, ft_strncmp);
+    char arr[10000];
+    ft_memset(arr, 0, sizeof(arr));
+    ft_strlcpy(arr, (*head)->path, sizeof(arr));
+    char *slash_ptr = ft_strrchr(arr, '/');
+    *slash_ptr = '\0';
+    slash_ptr = ft_strrchr(arr, '/');
+    *slash_ptr = '\0';
+    if (path_cnt > 1) {
+        ft_printf("%s:\n", arr);
+        print_ls(1, head);
+        ft_printf("\n", arr);
+    }
+    else {
+        print_ls(1, head);
+    }
 }
 
 int main(int argc, char *argv[]) {
     //notyet check argc role
-    argc += 1;
-    t_list_ls *head = init_ls_list();
-    head->path = ft_strdup(argv[1]);
-    ft_ls(&head);
-    print_ls(1, &head);
+    t_option option = 0;
+    t_parsing *parsing_head = init_parsing_list();
+    t_parsing *temp;
+    int path_cnt = 0;
+
+    if (argc > 1) {
+        path_cnt = parsing_argument(&parsing_head, argv, &option);
+    }
+    if (path_cnt == 0) {
+        parsing_head->str = ft_strdup(".");
+    }
+    temp = parsing_head;
+    // print_s_list_parsing(temp);
+    while (temp) {
+        temp->head = init_ls_list();
+        temp->head->path = ft_strdup(temp->str);
+        ft_ls(&temp->head, option, path_cnt);
+        free_all_ls_list(&temp->head);
+        temp = temp->next;
+    }
     // print_s_list_ls(head);
-    free_all_ls_list(&head);
+    free_all_parsing_list(&parsing_head);
     return 0;
 }
