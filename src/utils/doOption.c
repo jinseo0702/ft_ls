@@ -15,6 +15,9 @@ void do_Option(t_list_ls **head, t_option op) {
                 }
                 break;
             case 2 :
+				if (HASOPT(op, OPT_l)) {
+					make_long_format(head);
+				}
                 break;
             case 3 :
                 break;
@@ -25,3 +28,4 @@ void do_Option(t_list_ls **head, t_option op) {
         }
     }
 }
+

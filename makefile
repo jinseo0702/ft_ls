@@ -4,6 +4,7 @@ RM = rm -rf
 
 SRC = src/list_ls/listUtils.c \
 	src/dirStream/dirStream.c\
+	src/dirStream/longFormat.c\
 	src/utils/utils.c\
 	src/utils/parsing.c\
 	src/utils/doOption.c\

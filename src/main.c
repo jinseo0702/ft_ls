@@ -39,7 +39,7 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     recReadDir(head, temp->openDir, path);
     closeDirectoryStream(temp->openDir);
     do_Option(head, op);
-    // print_s_list_ls(*head);
+    // print_s_list_ls(*head);//
     ft_freenull(&path);
     char arr[10000];
     ft_memset(arr, 0, sizeof(arr));

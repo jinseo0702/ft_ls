@@ -6,19 +6,19 @@
 #include "../libft/libft.h"
 #include "../printf/libftprintf.h"
 
-// 0000 0001 = l
-// 0000 0010 = R
-// 0000 0100 = a
-// 0000 1000 = r
-// 0001 0000 = t
+// 0000 0000 = l
+// 0000 0001 = R
+// 0000 0010 = a
+// 0000 0100 = r
+// 0000 1000 = t
 
 typedef char t_option;
 
 #define OPT_l (1 << 0)
-#define OPT_R (2 << 0)
-#define OPT_a (3 << 0)
-#define OPT_r (4 << 0)
-#define OPT_t (5 << 0)
+#define OPT_R (1 << 1)
+#define OPT_a (1 << 2)
+#define OPT_r (1 << 3)
+#define OPT_t (1 << 4)
 
 #define HASOPT(opt, flag) (((opt) & (flag)) != 0)
 #define SETOPT(opt, flag) ((opt) |= (flag))
@@ -33,6 +33,7 @@ typedef struct s_list_ls t_list_ls;
     X(ERR_CLOSEDIR, "Closedir Error") \
     X(ERR_INVAILD_OPTION, "invalid option -- ") \
     X(ERR_CANNOT_ACCESS, "cannot access ") \
+    X(ERR_STATE, "State Error ")
 
 
 
