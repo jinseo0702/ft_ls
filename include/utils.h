@@ -34,5 +34,6 @@ static inline const char *get_error_msg(t_errr err) {
 void print_error(t_errr error);
 void exit_process(unsigned long ErrorNum);
 void print_ls(int flag, t_list_ls **head);
+void print_s_list_ls(t_list_ls *temp);
 
 #endif
