@@ -23,7 +23,7 @@ void make_long_format(t_list_ls **head, blkcnt_t *total) {
 	char arr[10000];
 	char *slash_ptr = NULL;
 
-    while (temp) {
+    while (temp->name != NULL) {
 		ft_memset(arr, 0, sizeof(arr));
 		ft_memset(&statbuf, 0, sizeof(statbuf));
 		ft_strlcpy(arr, temp->path, sizeof(arr));
@@ -248,7 +248,7 @@ char *decoding_time(struct timespec *st_mtim) {
 	char **temp = ft_split(time, ' ');
 	ft_strlcpy(arr, temp[1], sizeof(arr));
 	if (ft_strlen(temp[2]) == 1) ft_strlcat(arr, "   ", sizeof(arr));
-	else ft_strlcat(arr, "  ", sizeof(arr));
+	else ft_strlcat(arr, " ", sizeof(arr));
 	ft_strlcat(arr, temp[2], sizeof(arr));
 	ft_strlcat(arr, " ", sizeof(arr));
 	char *year = ft_strrchr(temp[4], '\n');
@@ -257,7 +257,8 @@ char *decoding_time(struct timespec *st_mtim) {
 		ft_strlcat(arr, " ", sizeof(arr));
 		ft_strlcat(arr, temp[4], sizeof(arr));
 	} else {
-		ft_strlcat(arr, &temp[3][3], sizeof(arr));
+		temp[3][5] = '\0';
+		ft_strlcat(arr, temp[3], sizeof(arr));
 	}
 	char *strDup = ft_strdup(arr);
 	if (strDup == NULL) {

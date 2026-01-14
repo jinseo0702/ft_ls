@@ -49,6 +49,7 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     *slash_ptr = '\0';
     slash_ptr = ft_strrchr(arr, '/');
     *slash_ptr = '\0';
+	if (total != 0) total /= 2;
     if (path_cnt > 1) {
         ft_printf("%s:\n", arr);
         if (HASOPT(op, OPT_l)) {
