@@ -3,7 +3,7 @@
 #include <sys/types.h>
 
 void do_Option(t_list_ls **head, t_option op, blkcnt_t *total) {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         switch (i) {
             case 0 :
                 if (!HASOPT(op, OPT_a)) ls_list_remove(head, '.');
@@ -16,13 +16,11 @@ void do_Option(t_list_ls **head, t_option op, blkcnt_t *total) {
                 }
                 break;
             case 2 :
-				if (HASOPT(op, OPT_l)) {
+				if (HASOPT(op, OPT_l) || HASOPT(op, OPT_R)) {
 					make_long_format(head, total);
 				}
                 break;
             case 3 :
-                break;
-            case 4 :
                 break;
             default:
             break;

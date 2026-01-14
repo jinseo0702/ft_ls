@@ -160,7 +160,7 @@ char *decoding_authority(mode_t st_mode) {
 	break_falg = 0;
 	char *rwx = "rwxrwxrwx";
 	char *arr2 = &arr[1];
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 9; i++) {
 		//개쩐다. 비트를 이렇게 이용할 수 있다니 이건 혁신이다.
 		//이게 가능한 이유는 st_mode가 권한을 100 010 001 을 보장하기 때문이다. 즉 000 000 000 이 9 개의 비트
 		//만큼 &(and) 연산으로 비교를 한다면 한번에 비교를 할 수있다.
@@ -247,7 +247,7 @@ char *decoding_time(struct timespec *st_mtim) {
 	comparison = now - st_mtim->tv_sec;
 	char **temp = ft_split(time, ' ');
 	ft_strlcpy(arr, temp[1], sizeof(arr));
-	if (ft_strlen(temp[2]) == 1) ft_strlcat(arr, "   ", sizeof(arr));
+	if (ft_strlen(temp[2]) == 1) ft_strlcat(arr, "  ", sizeof(arr));
 	else ft_strlcat(arr, " ", sizeof(arr));
 	ft_strlcat(arr, temp[2], sizeof(arr));
 	ft_strlcat(arr, " ", sizeof(arr));

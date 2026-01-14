@@ -50,7 +50,7 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     slash_ptr = ft_strrchr(arr, '/');
     *slash_ptr = '\0';
 	if (total != 0) total /= 2;
-    if (path_cnt > 1) {
+    if (path_cnt > 1 || HASOPT(op, OPT_R)) {
         ft_printf("%s:\n", arr);
         if (HASOPT(op, OPT_l)) {
             print_ls(OPT_l, head, total);
@@ -69,6 +69,25 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
         }
     }
 	//recursive
+	t_list_ls *temp2 = *head;
+	if (HASOPT(op, OPT_R)) {
+		while (temp2) {
+			if (ft_strlen(temp2->name) == 1 && temp2->name[0] == '.') {
+				temp2 = temp2->next;
+				continue;
+			}
+			if (ft_strlen(temp2->name) == 2 && ft_strncmp(temp2->name, "..", 2) == 0) {
+				temp2 = temp2->next;
+				continue;
+			}
+			if (temp2->long_format->authority[0] == 'd') {
+				ls_list_pushChild(&temp2, init_ls_list());
+				temp2->child->path = ft_strdup(temp2->path);
+				ft_ls(&temp2->child, op, path_cnt);
+			}
+			temp2 = temp2->next;
+		}
+	}
 }
 
 int main(int argc, char *argv[]) {
