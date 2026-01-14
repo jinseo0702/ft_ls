@@ -68,6 +68,7 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
             print_ls(0, head, total);
         }
     }
+	//recursive
 }
 
 int main(int argc, char *argv[]) {
