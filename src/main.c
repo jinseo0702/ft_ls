@@ -25,6 +25,7 @@ void recReadDir(t_list_ls **head, DIR *openDir, char *path) {
 
 void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     t_list_ls *temp = *head;
+    blkcnt_t total = 0;
     char *path = NULL;
 
     temp->openDir = openDirectoryStream(temp->path);
@@ -38,7 +39,7 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     }
     recReadDir(head, temp->openDir, path);
     closeDirectoryStream(temp->openDir);
-    do_Option(head, op);
+    do_Option(head, op, &total);
     // print_s_list_ls(*head);//
     ft_freenull(&path);
     char arr[10000];
@@ -50,11 +51,21 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     *slash_ptr = '\0';
     if (path_cnt > 1) {
         ft_printf("%s:\n", arr);
-        print_ls(1, head);
+        if (HASOPT(op, OPT_l)) {
+            print_ls(OPT_l, head, total);
+        }
+        else {
+            print_ls(0, head, total);
+        }
         ft_printf("\n", arr);
     }
     else {
-        print_ls(1, head);
+        if (HASOPT(op, OPT_l)) {
+            print_ls(OPT_l, head, total);
+        }
+        else {
+            print_ls(0, head, total);
+        }
     }
 }
 

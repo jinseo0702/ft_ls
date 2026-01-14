@@ -25,6 +25,8 @@ int		ft_putnbr(int n);
 int		ft_putnbr_un(unsigned int n);
 int		ft_put_hex(unsigned int n);
 int		ft_put_hex_upper(unsigned int n);
+int		ft_put_octal(unsigned int n);
+int		ft_put_space(unsigned int n);
 
 int   ft_fprintf(size_t fd, const char *str, ...);
 int   ft_fputstr(const char *s, size_t fd);
@@ -35,5 +37,7 @@ int	  ft_fputnbr(int n, size_t fd);
 int	  ft_fputnbr_un(unsigned int n, size_t fd);
 int	  ft_fput_hex(unsigned int n, size_t fd);
 int	  ft_fput_hex_upper(unsigned int n, size_t fd);
+int	  ft_fput_octal(unsigned int n, size_t fd);
+int	  ft_fput_space(unsigned int n, size_t fd);
 
 #endif

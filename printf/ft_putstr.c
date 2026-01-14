@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-#include <stddef.h>
 
 int	ft_putstr(const char *s)
 {
@@ -47,4 +46,30 @@ int	ft_fputstr(const char *s, size_t fd)
 		s++;
 	}
 	return ((int)cnt);
+}
+
+int ft_put_space(unsigned int n) {
+	ssize_t	cnt;
+
+	cnt = 0;
+	if (n == 0) {
+		return ((int)cnt);
+	}
+	for (unsigned int i = 0; i < n; i++) {
+		cnt += write(1, " ", 1);
+	}
+	return cnt;
+}
+
+int ft_fput_space(unsigned int n, size_t fd) {
+	ssize_t	cnt;
+
+	cnt = 0;
+	if (n == 0) {
+		return ((int)cnt);
+	}
+	for (unsigned int i = 0; i < n; i++) {
+		cnt += write(fd, " ", 1);
+	}
+	return cnt;
 }

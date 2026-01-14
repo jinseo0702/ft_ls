@@ -1,4 +1,5 @@
 #include "../../include/utils.h"
+#include <unistd.h>
 
 
 void free_parsing_list(t_parsing **list) {
@@ -97,11 +98,17 @@ int parsing_argument(t_parsing **head, char *argv[], t_option *op){
                 }
                 __attribute__((fallthrough)); //default 로 내려가는건 의도가 된 것이다. 라는 것을 컴파일러에게 알림
             default:
-                ls_parsing_pushBack(&temp, init_parsing_list());
-                next = temp->next;
-                next->str = ft_strdup(argv[i]);
-                path_cnt++;
-                temp = next;
+                if (temp->str == NULL) {
+                    temp->str = ft_strdup(argv[i]);
+                    path_cnt++;
+                }
+                else {
+                    ls_parsing_pushBack(&temp, init_parsing_list());
+                    next = temp->next;
+                    next->str = ft_strdup(argv[i]);
+                    path_cnt++;
+                    temp = next;
+                }
                 break;
         }
     }

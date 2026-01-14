@@ -1,9 +1,26 @@
 #include "../../include/ls_list.h"
+#include <string.h>
+#include <unistd.h>
 
 void free_ls_list(t_list_ls **list) {
     if (list && *list) {
         free(*list);
         *list = NULL;
+    }
+}
+
+void free_long_format(t_logformat **long_format) {
+    t_logformat *temp = *long_format;
+    if (long_format && *long_format) {
+        ft_freenull(&temp->authority);
+        ft_freenull(&temp->hardlink);
+        ft_freenull(&temp->owner);
+        ft_freenull(&temp->group);
+        ft_freenull(&temp->size);
+        ft_freenull(&temp->date);
+        ft_freenull(&temp->name);
+        free(*long_format);
+        *long_format = NULL;
     }
 }
 
@@ -24,6 +41,44 @@ unsigned int cnt_ls_list(t_list_ls **head) {
     return cnt;
 }
 
+/*
+하드 링크 : 오른쪽
+소유자 : 외쪽
+그룹 : 왼쪽
+사이즈 : 오른쪽
+일 : 오른쪽
+시간 or 년도 : 오른쪽
+falg : flag >= 0 ; flag <= 4
+*/
+unsigned int max_len_str_in_longform(t_list_ls **head, int flag) {
+    unsigned int val = 0;
+    t_list_ls *temp = *head;
+    char *ptr;
+
+    while (temp) {
+        switch (flag) {
+            case 0:
+                ptr = temp->long_format->hardlink;
+            break;
+            case 1:
+                ptr = temp->long_format->owner;
+            break;
+            case 2:
+                ptr = temp->long_format->group;
+            break;
+            case 3:
+                ptr = temp->long_format->size;
+            break;
+            case 4:
+                ptr = temp->long_format->date;
+            break;
+        }
+        if (ft_strlen(ptr) > val) val = ft_strlen(ptr);
+        temp = temp->next;
+    }
+    return val;
+}
+
 void ls_list_pushChild(t_list_ls **head, t_list_ls *child) {
     t_list_ls *temp = *head;
     temp->child = child;
@@ -36,6 +91,7 @@ void free_all_ls_list(t_list_ls **head){
         if (temp->child != NULL) free_all_ls_list(&temp->child);
         if (temp->name != NULL) ft_freenull(&temp->name);
         if (temp->path != NULL) ft_freenull(&temp->path);
+        if (temp->long_format != NULL) free_long_format(&temp->long_format);
         temp = temp->next;
         free_ls_list(head);
         *head = temp;

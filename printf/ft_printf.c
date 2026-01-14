@@ -33,6 +33,10 @@ static int	ft_type(va_list lst_va, const char *str)
 		cnt += ft_put_hex(va_arg(lst_va, unsigned int));
 	else if (*(str + 1) == 'X')
 		cnt += ft_put_hex_upper(va_arg(lst_va, unsigned int));
+	else if (*(str + 1) == 'o')
+		cnt += ft_put_octal(va_arg(lst_va, unsigned int));
+	else if (*(str + 1) == '*')
+		cnt += ft_put_space(va_arg(lst_va, unsigned int));
 	else if (*(str + 1) == '%')
 		cnt += ft_putchar('%');
 	else

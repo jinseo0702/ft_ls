@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-#include <stddef.h>
 
 int	ft_putaddress(void *ptr)
 {
@@ -113,6 +112,29 @@ int	ft_put_hex_upper(unsigned int n)
 	return ((int)re_cnt_hex_up);
 }
 
+int	ft_put_octal(unsigned int n)
+{
+	int		cnt_put_octal;
+	ssize_t	re_cnt_octal;
+	char	octal[8];
+
+	ft_memset(octal, 0, 8);
+	re_cnt_octal = 0;
+	cnt_put_octal = 8;
+	if (n == 0)
+	{
+		re_cnt_octal += write(1, "0", 1);
+		return (re_cnt_octal);
+	}
+	while (n > 0)
+	{
+		octal[--cnt_put_octal] = "01234567"[n % 8];
+		n /= 8;
+	}
+	re_cnt_octal += write(1, &octal[cnt_put_octal], 8 - cnt_put_octal);
+	return ((int)re_cnt_octal);
+}
+
 int	ft_fputaddress(void *ptr, size_t fd)
 {
 	int					cnt_put_address;
@@ -211,4 +233,27 @@ int	ft_fput_hex_upper(unsigned int n, size_t fd)
 	}
 	re_cnt_hex_up += write(fd, &hex_up[cnt_put_hex_up], 8 - cnt_put_hex_up);
 	return ((int)re_cnt_hex_up);
+}
+
+int	ft_fput_octal(unsigned int n, size_t fd)
+{
+	int		cnt_put_octal;
+	ssize_t	re_cnt_octal;
+	char	octal[8];
+
+	ft_memset(octal, 0, 8);
+	re_cnt_octal = 0;
+	cnt_put_octal = 8;
+	if (n == 0)
+	{
+		re_cnt_octal += write(fd, "0", 1);
+		return (re_cnt_octal);
+	}
+	while (n > 0)
+	{
+		octal[--cnt_put_octal] = "01234567"[n % 8];
+		n /= 8;
+	}
+	re_cnt_octal += write(fd, &octal[cnt_put_octal], 8 - cnt_put_octal);
+	return ((int)re_cnt_octal);
 }

@@ -3,14 +3,15 @@
 
 #include <string.h>
 #include <errno.h>
+#include <sys/types.h>
 #include "../libft/libft.h"
 #include "../printf/libftprintf.h"
 
-// 0000 0000 = l
-// 0000 0001 = R
-// 0000 0010 = a
-// 0000 0100 = r
-// 0000 1000 = t
+// 0000 0001 = l
+// 0000 0010 = R
+// 0000 0100 = a
+// 0000 1000 = r
+// 0001 0000 = t
 
 typedef char t_option;
 
@@ -33,7 +34,12 @@ typedef struct s_list_ls t_list_ls;
     X(ERR_CLOSEDIR, "Closedir Error") \
     X(ERR_INVAILD_OPTION, "invalid option -- ") \
     X(ERR_CANNOT_ACCESS, "cannot access ") \
-    X(ERR_STATE, "State Error ")
+    X(ERR_STATE, "State Error ") \
+    X(ERR_PWUID, "getpwuid Error ") \
+    X(ERR_GRGID, "getgrgid Error ") \
+    X(ERR_CTIME, "ctime Error ") \
+    X(ERR_READLINK, "readlink Error ")
+
 
 
 
@@ -58,10 +64,25 @@ typedef struct s_parsing {
     t_list_ls *head;
 } t_parsing ;
 
+typedef struct s_longformat {
+    char *authority;
+    char *hardlink;
+    int hard_width;
+    char *owner;
+    int owener_width;
+    char *group;
+    int group_width;
+    char *size;
+    int size_width;
+    char *date;
+    int date_width;
+    char *name;
+} t_logformat;
+
 void print_error(t_errr error);
 void print_error_ls(t_errr error, const char *str);
 void exit_process(unsigned long ErrorNum);
-void print_ls(int flag, t_list_ls **head);
+void print_ls(int flag, t_list_ls **head, blkcnt_t total);
 void print_s_list_ls(t_list_ls *temp);
 void print_s_list_parsing(t_parsing *temp);
 
@@ -75,6 +96,6 @@ void check_option(const char *str, t_option *opt);
 int parsing_argument(t_parsing **head, char *argv[], t_option *op);
 
 //doOption.c
-void do_Option(t_list_ls **head, t_option op);
+void do_Option(t_list_ls **head, t_option op, blkcnt_t *total);
 
 #endif
