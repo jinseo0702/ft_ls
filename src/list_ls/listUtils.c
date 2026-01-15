@@ -1,5 +1,6 @@
 #include "../../include/ls_list.h"
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 void free_ls_list(t_list_ls **list) {
@@ -173,6 +174,82 @@ void sort_reverse_list(t_list_ls **head, int (*cmp)()) {
             len_next = ft_strlen(next->name);
             len = len_cur > len_next ? len_cur : len_next;
             if (cmp(cur->name, next->name, len) < 0) {
+                cur->next = next->next;
+                next->next = cur;
+                *pp = next;
+                swapped = 1;
+            }
+            pp = &((*pp)->next);
+        }
+    }while (swapped);
+}
+
+void time_sort_list(t_list_ls **head) {
+    int swapped;
+    t_list_ls *cur;
+    t_list_ls *next;
+    t_list_ls **pp;
+    time_t cur_tst = 0;
+    time_t next_tst = 0;
+    time_t diffs = 0;
+    long cur_nst = 0;
+    long next_nst = 0;
+    long diffn = 0;
+
+    do {
+        swapped = 0;
+        pp = head;
+        while (*pp && (*pp)->next) {
+            cur = *pp;
+            next = cur->next;
+            cur_tst = cur->st_mtim.tv_nsec;
+            next_tst = next->st_mtim.tv_nsec;
+            diffs = cur_tst - next_tst;
+            if (diffs == 0) {
+                cur_nst = cur->st_mtim.tv_nsec;
+                next_nst = next->st_mtim.tv_nsec;
+                diffn = cur_nst - next_nst;
+                diffs = diffn;
+            }
+            if (diffs < 0) {
+                cur->next = next->next;
+                next->next = cur;
+                *pp = next;
+                swapped = 1;
+            }
+            pp = &((*pp)->next);
+        }
+    }while (swapped);
+}
+
+void time_sort_reverse_list(t_list_ls **head) {
+    int swapped;
+    t_list_ls *cur;
+    t_list_ls *next;
+    t_list_ls **pp;
+    time_t cur_tst = 0;
+    time_t next_tst = 0;
+    time_t diffs = 0;
+    long cur_nst = 0;
+    long next_nst = 0;
+    long diffn = 0;
+
+    do {
+        swapped = 0;
+        pp = head;
+        while (*pp && (*pp)->next) {
+            cur = *pp;
+            next = cur->next;
+            cur_tst = cur->st_mtim.tv_nsec;
+            next_tst = next->st_mtim.tv_nsec;
+            diffs = cur_tst - next_tst;
+            if (diffs == 0) {
+                cur_nst = cur->st_mtim.tv_nsec;
+                next_nst = next->st_mtim.tv_nsec;
+                diffn = cur_nst - next_nst;
+                diffs = diffn;
+            }
+            if (diffs > 0) {
                 cur->next = next->next;
                 next->next = cur;
                 *pp = next;
