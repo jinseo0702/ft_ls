@@ -5,7 +5,8 @@
 
 DIR *openDirectoryStream(const char *path) {
     DIR *openDirPtr = opendir(path);
-    if (openDirPtr == NULL) print_error(ERR_OPENDIR);
+    // if (openDirPtr == NULL) print_error(ERR_OPENDIR);
+    if (openDirPtr == NULL) print_error_ls(ERR_OPENDIR, path);
     return (openDirPtr); 
 }
 

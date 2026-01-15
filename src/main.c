@@ -29,7 +29,8 @@ void ft_ls(t_list_ls **head, t_option op, int path_cnt) {
     char *path = NULL;
 
     temp->openDir = openDirectoryStream(temp->path);
-    if (temp->openDir == NULL) exit_process(temp->ErrorNum);
+    // if (temp->openDir == NULL) exit_process(temp->ErrorNum);
+    if (temp->openDir == NULL) return;
 
     if (ft_strrstr(temp->path, "/", 1) == 0) {
         path = ft_strjoin(temp->path, "/");
