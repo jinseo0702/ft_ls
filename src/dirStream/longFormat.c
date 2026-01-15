@@ -283,7 +283,7 @@ char *decoding_name(const char *path, const char *name) {
 	ft_memset(buf, 0, path_size);
 	if (readlink(path_dup, buf, path_size) == -1) {
 		print_error(ERR_READLINK);
-		exit_process(1);
+		// exit_process(1);
 	}
 	char return_temp[path_size * 3];
 	ft_memset(return_temp, 0, (path_size * 3));
