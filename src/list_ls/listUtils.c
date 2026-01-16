@@ -202,8 +202,8 @@ void time_sort_list(t_list_ls **head) {
         while (*pp && (*pp)->next) {
             cur = *pp;
             next = cur->next;
-            cur_tst = cur->st_mtim.tv_nsec;
-            next_tst = next->st_mtim.tv_nsec;
+            cur_tst = cur->st_mtim.tv_sec;
+            next_tst = next->st_mtim.tv_sec;
             diffs = cur_tst - next_tst;
             if (diffs == 0) {
                 cur_nst = cur->st_mtim.tv_nsec;
@@ -240,8 +240,8 @@ void time_sort_reverse_list(t_list_ls **head) {
         while (*pp && (*pp)->next) {
             cur = *pp;
             next = cur->next;
-            cur_tst = cur->st_mtim.tv_nsec;
-            next_tst = next->st_mtim.tv_nsec;
+            cur_tst = cur->st_mtim.tv_sec;
+            next_tst = next->st_mtim.tv_sec;
             diffs = cur_tst - next_tst;
             if (diffs == 0) {
                 cur_nst = cur->st_mtim.tv_nsec;
